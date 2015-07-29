@@ -1,0 +1,7 @@
+*.bat
+*.lnk
+tmp/*
+!tmp/*access
+uploads/*
+*.log
+*.sql

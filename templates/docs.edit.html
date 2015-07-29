@@ -1,0 +1,48 @@
+<div class='col-md-3'></div>
+
+<form class="col-md-6" method='post' action='' enctype="multipart/form-data">
+	<fieldset>
+
+	<h2>
+		{{!@dry?"Edit":"Add"}} Document
+		<a href='/{{@data.tools.name}}/docs' class='btn btn-default pull-right'>Back to Documents</a>
+	</h2>
+
+	<div class="form-group">
+		<label>Tool</label>  
+		<input id="displayname" type="text" class="form-control input-md" disabled value='{{@data.tools.displayname}}'>
+		<input type="hidden" name="tools_id" value='{{@data.tools.id}}'>
+	</div>
+
+	<div class="form-group">
+		<label for="displayname">Display Name</label>  
+		<input id="displayname" name="displayname" type="text" placeholder="Training Reading" class="form-control input-md" required value='{{!@dry?@data.displayname:""}}'>
+	</div>
+
+	<check if="{{@dry || @data.external}}">
+		<div class="form-group">
+			<label for="url">URL</label>  
+			<input id="url" name="url" type="text" class="form-control input-md" {{!@dry?"required":""}} value='{{!@dry?@data.url:""}}'>
+		</div>
+	</check>
+
+	<check if="{{@dry}}">
+		<div class="form-group">
+			<label for="url">File</label>  
+			<input type="file" name="image">
+			<span class="help-block">A training material consists of an external link OR an updated file. If you select a file, the link will be ignored.</span> 
+		</div>
+	</check>
+
+	<div class="form-group">
+	    <button type="submit" class="btn btn-primary">{{!@dry?"Update":"Add"}}</button>
+	    <check if="{{!@dry}}">
+		    <check if="{{!@data.external}}">
+		    	<a href='/docs/{{@data.id}}' class='btn btn-default' target=_blank>View File</a>
+		    </check>
+	    	<a href='/docs/{{@data.id}}/delete' class="btn btn-danger pull-right">Delete</a>
+	    </check>
+	</div>
+
+	</fieldset>
+</form>

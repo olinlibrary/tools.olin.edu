@@ -1,0 +1,101 @@
+<div class='col-md-3'></div>
+
+<form class="col-md-6 train" method='post' action=''>
+	<fieldset>
+
+		<h2>
+			Add Training Record
+		</h2>
+
+		<h4>
+			Step 1: Tool Information
+			<check if="{{@POST && !isset(@POST.username)}}"><a class='btn pull-right btn-default' onClick='window.history.back();'>Edit</a></check>
+		</h4>
+
+		<p>To add a training record, first select the appropriate training level.</p>
+
+		<div class='row'>
+			<div class="form-group col-sm-5">
+				<label for="displayname">Tool</label>  
+				<input disabled id="displayname" name="displayname" type="text" value="{{@data.displayname}}" class="form-control imput-md">
+			</div>
+			<div class="form-group col-sm-3">
+				<label for="level">Level</label>  
+				<select class="form-control" name="level" {{@POST?"disabled":""}}>
+					<repeat group="{{@data.training_levels}}" value="{{@level}}">
+						<option value="{{@level.0}}" {{@POST && @POST.level==@level.0?"selected":""}}>{{@level.1}}</option>
+					</repeat>
+				</select>
+				<check if="{{@POST}}">
+					<input type="hidden" value="{{@POST.level}}" name="level">
+				</check>
+			</div>
+			<div class="form-group col-sm-4">
+				<check if="{{@POST}}">
+					<true>
+						<label for="instructor">Instructor</label>  
+						<input id="instructor" type="text" value='{{@instructor.displayname}} ({{@instructor.usergroup < 8000?@instructor.usergroup:""}}{{@instructor.usergroup == 9999?"Fac/Staff":""}})' class="form-control input-md" required disabled>
+						<input name="instructor" type="hidden" value="{{@instructor.username}}">
+					</true>
+					<false>
+						<label for="instructor">Instructor Username</label>  
+						<input id="instructor" name="instructor" type="text" value="{{@POST?@POST.instructor:@SESSION.username}}" class="form-control input-md" required {{@POST || !@SESSION.admin?"readonly":""}}>
+					</false>
+				</check>
+			</div>
+		</div>
+
+		<check if="{{@SESSION.admin and !@POST}}"><span class="help-block">Note that the option to change the instructor is only available to system administrators.</span></check>
+		
+
+		<check if="{{@POST}}">
+
+			<hr>
+
+			<h4>Step 2: Trained User Information</h4>
+
+			<p>The person being trained should enter their Olin network credentials below and check the box affirming that they have been trained.</p>
+
+
+			<div class='row'>
+				<div class="form-group col-sm-6">
+					<label for="username">Trained User Username</label>  
+					<input id="username" name="username" type="text" placeholder="pmiller" class="form-control input-md" required>
+				</div>
+				<div class="form-group col-sm-6">
+					<label for="password">Trained User Password</label>  
+					<input id="password" name="password" type="password" placeholder="password" class="form-control input-md" required>
+				</div>
+			</div>
+
+			<span class="help-block">Your username is your first initial, followed by your last name, e.g. pmiller.</span>
+
+			<div class="form-group">
+					<div class="checkbox">
+						<label>
+						  <input type="checkbox" name="affirmation" value="1" required> I have been trained on this machine and understand how to use it safely and responsibly. I will only use the machine in accordance with the posted policies of Olin College and will never use the machine alone.
+						</label>
+					</div>
+			</div>
+
+		</check>
+
+		<div class="form-group">
+		    <check if="{{@POST}}">
+		    	<true>
+		    		<p>
+		    			<button type="submit" class="btn btn-primary">Add Training Record</button>
+		    			<a href='/{{@PARAMS.name}}' id='doneTraining' class="btn btn-default pull-right">Done Training</a>
+		    		</p>
+
+					<check if="{{isset(@message)}}"><div class='alert alert-{{@success?"success":"danger"}}' role="alert">{{@message}}</div></check>
+		    	</true>
+		    	<false>
+		    		<button type="submit" class="btn btn-primary">Proceed to Step 2</button>
+		    	</false>
+		    </check>
+		</div>
+
+	</fieldset>
+
+</form>

@@ -1,0 +1,126 @@
+<div class='row tool-header'>
+
+	<div class='col-sm-6 img'>
+		<check if="{{isset(@images)}}">
+			<div id="tool-images" class="carousel slide" data-ride="carousel">
+				<check if="{{@multiple_images}}">
+					<ol class="carousel-indicators">
+						<repeat group="{{@images}}" counter="{{@ctr}}" value="{{@img}}">
+							<li data-target=".carousel" data-slide-to="{{@ctr-1}}" class="{{@ctr==1?'active':''}}"></li>
+						</repeat>
+					</ol>
+				</check>
+				<div class="carousel-inner" role="listbox">
+					<repeat group="{{@images}}" counter="{{@ctr}}" value="{{@img}}">
+						<div class="item {{@ctr==1?'active':''}}" style="background-image: url('/uploads/tools/{{@img.url}}');"></div>
+					</repeat>
+				</div>
+				<check if="{{@multiple_images}}">
+					<a class="left carousel-control" href="#tool-images" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="right carousel-control" href="#tool-images" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</check>
+			</div>
+		</check>
+	</div>
+	<div class='col-sm-6 info'>
+		<h2>
+			{{@data.displayname}}
+			<check if="{{@SESSION and @SESSION.admin}}">
+				<a href='/{{@data.name}}/images' class='btn btn-default pull-right'>Edit Images</a>
+				<a href='/{{@data.name}}/edit' class='btn btn-default pull-right'>Edit Info</a>
+			</check>
+			<check if="{{@can_train}}">
+				<a href='/{{@data.name}}/train' class='btn btn-primary pull-right'>Train</a>
+			</check>
+		</h2>
+		{{@data.notes | raw}}
+
+		<div class='row'>
+			<check if="{{isset(@data.sharedLocations)}}">
+				<div class='col-md-3'>
+					<h5>LOCATION</h5>
+					<repeat group="{{@data.sharedLocations}}" value="{{@location}}">
+						<i class='glyphicon glyphicon-home'></i>
+						{{@location.displayname}}
+					 	<check if="{{@location.hours}}">
+					 		({{@location.hours}})
+					 	</check>
+					 	<br />
+					</repeat>
+				</div>
+			</check>
+			<div class='col-md-3'>
+				<h5>TRAINING LEVELS</h5>
+				<repeat group="{{@training_levels}}" key="{{@code}}" value="{{@training_level}}">
+					<span class="indicator trained">{{@code}}</span>
+					{{@training_level}}
+				 	<br />
+				</repeat>
+			</div>
+			<check if="{{isset(@data.ownDocs) || @SESSION and @SESSION.admin}}">
+				<div class='col-md-6'>
+					<h5>
+						DOCUMENTS
+						<check if="{{@SESSION and @SESSION.admin}}"><a href='/{{@data.name}}/docs' class='btn btn-xs btn-default'>Edit</a></check>
+					</h5>
+					<check if="{{isset(@data.ownDocs)}}">
+						<repeat group="{{@data.ownDocs}}" value="{{@item}}">
+						 	<i class='glyphicon glyphicon-{{@item.external?"share":"download"}}-alt'></i>
+						 	<a href='{{@item.external?@item.url:"/docs/".@item.id}}' target=_blank>{{@item.displayname}}</a><br />
+						</repeat>
+					</check>
+				</div>
+			</check>
+		</div>
+
+	</div>
+
+</div>
+<hr>
+
+<div class='row trained-users'>
+	
+	<div class='col-md-12'>
+		<div class='row'>
+		<h4 class='col-sm-8 col-xs-6'>Training Table</h4>
+		<div class='col-sm-2 col-xs-3 legend'><span class='indicator trained'></span>Trained</div>
+		<div class='col-sm-2 col-xs-3 legend'><span class='indicator'></span>Not Trained</div>
+		</div>
+	</div>
+
+	<repeat group="{{@usergroups}}" counter="{{@ctr}}" key="{{@group}}" value="{{@users}}">
+		<div class='col-md-2 col-xs-4'>
+			<h5>
+				<check if="{{@group < 8000}}">
+					Class of {{@group}}
+				</check>
+				<check if="{{@group == 8888}}">
+					Other Students
+				</check>
+				<check if="{{@group == 9999}}">
+					Faculty &amp; Staff
+				</check>
+			</h5>
+			<repeat group="{{@users}}" key="{{@uid}}" value="{{@user}}">
+				<a href='/u/{{@user.0}}'>
+					<check if="{{isset(@trainings[@uid][@data.id])}}">
+						<true>
+							<span class='indicator trained' title="{{@trainings[@uid][@data.id][1]}}">{{@trainings[@uid][@data.id][0]}}</span>
+						</true>
+						<false>
+							<span class='indicator'></span>
+						</false>
+					</check>
+					{{@user.1}}
+				</a>
+			</repeat>
+		</div>
+		<div class='{{@ctr%3?"":"clearfix visible-xs visible-sm"}} {{@ctr%6?"":"visible-md visible-lg"}}'></div>
+	</repeat>
+</div>

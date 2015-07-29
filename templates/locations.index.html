@@ -1,0 +1,20 @@
+<div class='col-md-3'></div>
+
+<div class="col-md-6" method='post' action=''>
+
+	<h2>
+		Locations
+		<a href='/locations/new' class='btn pull-right btn-default'>New Location</a>
+	</h2>
+
+	<ul class="list-group">
+		<repeat group="{{@data}}" value="{{@location}}">
+			<a href='/locations/{{@location.id}}/edit' class="list-group-item">
+				<span class="badge">{{@location.hours}}</span>
+				{{@location.displayname}}
+			</a>
+		</repeat>
+	</ul>
+
+</div>
+

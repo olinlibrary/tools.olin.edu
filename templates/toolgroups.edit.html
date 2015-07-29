@@ -1,0 +1,36 @@
+<div class='col-md-3'></div>
+
+<form class="col-md-6" method='post' action=''>
+	<fieldset>
+
+	<h2>
+		{{!@dry?"Edit":"Add"}} Tool Group
+		<a href='/' class='btn btn-default pull-right'>Back to Tools</a>
+	</h2>
+
+	<div class="form-group">
+	  <label for="displayname">Name</label>  
+	  <input id="displayname" name="displayname" type="text" placeholder="Green Machines" class="form-control input-md" required="" value='{{!@dry?@data.displayname:""}}'>
+	  <span class="help-block">Must be unique.</span> 
+	</div>
+
+	<div class="form-group">
+	  <label for="sort_priority">Priority</label>
+	   <input id="sort_priority" name="sort_priority" type="number" class="form-control input-md" required="" value='{{!@dry?@data.sort_priority:1}}'>
+	  <span class="help-block">Higher numbered groups will be displayed higher in the list of tools.</span> 
+	</div>
+
+	<div class="form-group">
+	    <button type="submit" class="btn btn-primary">{{!@dry?"Update":"Add"}}</button>
+	    <check if="{{!@dry}}">
+	    	<a href='/toolgroups/{{@data.id}}/{{@empty?"delete":""}}' {{@empty?"":"disabled"}} class="btn btn-danger pull-right" {{@empty?"":"disabled"}}>Delete</a>
+	    </check>
+	</div>
+
+	<check if="{{!@dry and !@empty}}">
+		<p class="pull-right help-block">A tool group cannot be deleted if it contains tools.</p>
+	</check>
+
+	</fieldset>
+</form>
+

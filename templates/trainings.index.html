@@ -1,0 +1,152 @@
+<style>
+    body {
+        margin: 16px;
+        white-space: nowrap;
+    }
+
+    .header {
+        margin-top: 50px;
+        padding-left: 164px;
+        position: absolute;
+        height: 130px;
+        top: 0;
+        padding-bottom: 20px;
+        min-width: 100%;
+    }
+    .headeroverlay {
+        position: fixed;
+        background-color: #fff;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 180px;
+    }
+    .kiosk .headeroverlay {
+        height: 130px;
+    }
+    .header .tool {
+        margin-top: 110px;
+        -webkit-transform-origin: left;
+        -webkit-transform: rotate(-45deg);
+        background-color: rgba(0,0,0,0);
+        text-decoration: none;
+        color: black;
+        white-space: nowrap;
+    }
+    .header .tool.section {
+        font-weight: bold;
+    }
+    .header a.tool:hover {
+        text-decoration: underline;
+    }
+
+
+    .content {
+        margin-top: 185px;
+    }
+    .kiosk .content {
+        margin-top: 135px;
+    }
+    .group {
+        margin-bottom: 30px;
+    }
+
+
+    .row {
+        width: 100%;
+        padding: 8px;
+        margin: 0 -8px;
+        height: 2.5em;
+        display: block;
+        color: black;
+    }
+    .name {
+        width: 160px;
+        float: left;
+    }
+    .row:hover {
+        background: rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+
+
+    .tool {
+        height: 20px;
+        width: 20px;
+        background-color: rgba(0,0,0,0.08);
+        float: left;
+        margin: 0 6px;
+        -webkit-border-radius: 8px;
+    }
+    .toolgroup {
+        display: inline-block;
+        margin: 0 33.5px;
+    }
+    .header .toolgroup {
+        margin: 0 36px 0 0;
+    }
+    .tool.trained {
+        background-color: black;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        font-size: 0.8em;
+        padding-top: 0.2em;
+    }
+    .tool.break {
+        background-color: rgba(0,0,0,0);
+    }
+</style>
+
+    <div class='headeroverlay'></div>
+
+    <div class='header'>
+        <repeat group="{{@toolgroups}}" value="{{@group}}">
+            <div class='toolgroup'>
+                <span class='tool section'>{{@group.displayname}}</span>
+                <repeat group="{{@group.ownTools}}" value="{{@tool}}">
+                    <a class='tool' href='/{{@tool.name}}'>{{@tool.displayname}}</a>
+                </repeat>
+            </div>
+        </repeat>
+
+    </div>
+
+    <div class='content'>
+
+        <repeat group="{{@usergroups}}" key="{{@group}}" value="{{@users}}">
+            <div class='group'>
+                <h3>
+                    <check if="{{@group == 9999}}">
+                        <true>Faculty &amp; Staff</true>
+                        <false>
+                            <check if="{{@group == 8888}}">
+                                <true>Other Students</true>
+                                <false>Class of {{@group}}</false>
+                            </check>
+                        </false>
+                    </check>
+                </h3>
+
+                <repeat group="{{@users}}" key="{{@uid}}" value="{{@user}}">
+                    <a class='row' href='/u/{{@user.0}}'>
+                        <div class='name'>{{@user.1}}</div>
+
+                        <repeat group="{{@toolgroups}}" value="{{@group}}">
+                            <div class='toolgroup'>
+                                <repeat group="{{@group.ownTools}}" value="{{@tool}}">
+                                    <div class='tool {{isset(@trainings[@uid][@tool.id])?"trained":""}}'>{{isset(@trainings[@uid][@tool.id])?@trainings[@uid][@tool.id][0]:""}}</div>
+                                </repeat>
+                            </div>
+                        </repeat>
+
+                    </a>
+                </repeat>
+
+            </div>
+        </repeat>
+
+    <script src="/static/js/trainings.index.js"></script>
+    <check if="{{isset(@kiosk)}}">
+        <script src="/static/js/dashboard.js"></script>
+    </check>

@@ -1,0 +1,33 @@
+<div class='row'>
+	<check if="{{isset(@data)}}">
+		<repeat group="{{@data}}" value="{{@group}}">
+			<h3 class='col-xs-12'>
+				{{@group.displayname}}
+				<check if="{{@SESSION and @SESSION.admin}}">
+					<a href='/toolgroups/{{@group.id}}/edit' class="edit btn btn-default">Edit Group</a>
+					<a href='/toolgroups/{{@group.id}}/add' class="edit btn btn-default">Add Tool</a>
+				</check>
+			</h3>
+			<check if="{{isset(@group.ownTools)}}">
+				<repeat group="{{@group.ownTools}}" counter="{{@ctr}}" value="{{@tool}}">
+					<a href='/{{@tool.name}}' class='col-xs-6 col-sm-3 col-md-2 tile'>
+						<img src='/{{@tool.name}}/img'>
+						<h5>{{@tool.displayname}}</h5>
+					</a>
+					<div class='{{@ctr%2?"":"clearfix visible-xs"}} {{@ctr%4?"":"visible-sm"}} {{@ctr%6?"":"visible-md visible-lg"}}'></div>
+				</repeat>
+			</check>
+			<div class='clearfix'></div>
+			<hr>
+		</repeat>
+	</check>
+
+	<div class='col-xs-12'>
+		<check if="{{@SESSION and @SESSION.admin}}">
+			<p>
+				<a href='/toolgroups/new' class="edit btn btn-default">Add Group</a>
+				<a href='/locations' class="edit btn btn-default">Manage Locations</a>
+			</p>
+		</check>
+	</div>
+</div>

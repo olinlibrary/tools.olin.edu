@@ -1,0 +1,33 @@
+<div class='col-md-3'></div>
+
+<form class="col-md-6" method='post' action=''>
+	<fieldset>
+
+	<legend>{{!@dry?"Edit":"Add"}} Location</legend>
+
+	<div class="form-group">
+	  <label for="displayname">Description</label>  
+	  <input id="displayname" name="displayname" type="text" placeholder="AC 104" class="form-control input-md" required="" value='{{!@dry?@data.displayname:""}}'>
+	  <span class="help-block">Must be unique.</span> 
+	</div>
+
+	<div class="form-group">
+	  <label for="hours">Hours Open</label>
+	   <input id="hours" name="hours" type="text" class="form-control input-md" value='{{!@dry?@data.hours:""}}'>
+	  <span class="help-block">Optional</span> 
+	</div>
+
+	<div class="form-group">
+	    <button type="submit" class="btn btn-primary">{{!@dry?"Update":"Add"}}</button>
+	    <check if="{{!@dry}}">
+	    	<a href='/locations/{{@data.id}}/{{@empty?"delete":""}}' {{@empty?"":"disabled"}} class="btn btn-danger pull-right" {{@empty?"":"disabled"}}>Delete</a>
+	    </check>
+	</div>
+
+	<check if="{{!@dry and !@empty}}">
+		<p class="pull-right help-block">A location cannot be deleted if it contains tools.</p>
+	</check>
+
+	</fieldset>
+</form>
+

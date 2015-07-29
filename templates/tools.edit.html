@@ -1,0 +1,65 @@
+<div class='col-md-3'></div>
+
+<form class="col-md-6" method='post' action=''>
+	<fieldset>
+
+	<h2>
+		{{!@dry?"Edit":"Add"}} Tool
+	</h2>
+
+	<div class="form-group">
+		<label for="name">Short Name</label>  
+		<input id="name" name="name" type="text" placeholder="drillpress" class="form-control input-md" required value='{{!@dry?@data.name:""}}'>
+		<span class="help-block">Displayed in the URL. Must be unique.</span> 
+	</div>
+
+	<div class="form-group">
+		<label for="displayname">Display Name</label>  
+		<input id="displayname" name="displayname" type="text" placeholder="Drill Press" class="form-control input-md" required value='{{!@dry?@data.displayname:""}}'>
+	</div>
+
+	<div class="form-group">
+		<label for="toolgroups_id">Tool Group</label>
+		<select class="form-control" name="toolgroups_id">
+			<repeat group="{{@toolgroups}}" value="{{@group}}">
+				<option value="{{@group.id}}" {{(isset(@data) && @group.id == @data.toolgroups_id) || (isset(@PARAMS.id) && @group.id == @PARAMS.id)?"selected":""}}>{{@group.displayname}}</option>
+			</repeat>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label for="locations">Locations</label>
+		<select class="form-control" name="locations[]" multiple>
+			<repeat group="{{@locations}}" value="{{@location}}">
+				<option value="{{@location.id}}" {{@location.active?"selected":""}}>{{@location.displayname}}</option>
+			</repeat>
+		</select>
+	</div>
+
+	<div class="form-group">
+	  	<label>Training Levels</label><br />
+		<repeat group="{{@training_levels}}" value="{{@level}}">
+			<a class="btn btn-primary"><span class="badge">{{@level.0}}</span> {{@level.1}}</a>
+		</repeat>
+		<span class="help-block">Training levels must be edited in the database for now. Contact system administrator to edit.</span> 
+	</div>
+
+	<div class="form-group">
+	  	<label for="displayname">Notes</label>
+  	  	<textarea class="form-control" rows="5" name="notes">{{!@dry?@data.notes:""}}</textarea>
+	  	<span class="help-block">Plain text or markdown. Will be displayed on the tool information page.</span> 
+	</div>
+
+	<div class="form-group">
+	    <button type="submit" class="btn btn-primary">{{!@dry?"Update":"Add"}}</button>
+	    <check if="{{!@dry}}">
+	    	<a href='/{{@data.name}}/{{@empty?"delete":""}}' {{@empty?"":"disabled"}} class="btn btn-danger pull-right" {{@empty?"":"disabled"}}>Delete</a>
+	    </check>
+	</div>
+
+	<check if="{{!@dry and !@empty}}">
+		<p class="pull-right help-block">A tool cannot be deleted if it contains training records.</p>
+	</check>
+
+	</fieldset>
+</form>

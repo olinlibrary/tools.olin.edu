@@ -1,0 +1,24 @@
+<div class='col-md-3'></div>
+
+<div class="col-md-6" method='post' action=''>
+
+	<h2>
+		{{@data.displayname}} Documents
+	</h2>
+
+	<ul class="list-group">
+		<check if="{{isset(@data.ownDocs)}}">
+			<repeat group="{{@data.ownDocs}}" value="{{@doc}}">
+				<a href='/docs/{{@doc.id}}/edit' class="list-group-item">
+					{{@doc.displayname}}
+					<i class='glyphicon glyphicon-{{@doc.external?"share":"download"}}-alt pull-right'></i>
+				</a>
+			</repeat>
+		</check>
+	</ul>
+
+	<a href='/{{@data.name}}/docs/new' class='btn btn-primary'>New Document</a>
+	<a href='/{{@data.name}}' class='btn btn-default pull-right'>Back to {{@data.displayname}}</a>
+
+</div>
+

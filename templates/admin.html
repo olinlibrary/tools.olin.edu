@@ -1,0 +1,118 @@
+<div class='col-md-3'></div>
+
+<div class='col-md-6'>
+
+	<h2>
+		Administrator Portal
+	</h2>
+
+	<form class="form" method='post' action=''>
+		<p class="help-block">Enter system administrators usernames, one per line.<br>Note that you cannot remove yourself as an administrator.</p>
+		<div class="form-group">
+			<textarea type="text" required class="form-control" name="admins">{{@admins}}</textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Update System Administrators</button>
+	</form>
+
+	<hr>
+	<h4>User Management</h4>
+	<p class="help-block">This task will update users that have changed class years and will archive alumni accounts. It should be run at least once per semester. Note that the task requires your password to run and may take quite a while.</p>
+	<form class="form" method='post' action='/admin/updateall'>
+		<div class="form-group">
+			<input type="password" required class="form-control" name="password" placeholder="Enter Your Password...">
+		</div>
+		<button type="submit" class="btn btn-primary">Update All Users</button>
+	</form>
+
+	<hr>
+
+	<h4>Delete Training Records</h4>
+	<form class="form-horizontal" method='post' action='/admin/delete'>
+		<p class="help-block">Delete a training record for a user on a tool.</p>
+		<div class="form-group">
+			<label class='col-sm-3 control-label'>Tool</label>
+			<div class='col-sm-4'>
+				<input type="text" required class="form-control" placeholder="drillpress" name="tool"></textarea>
+			</div>
+			<label class='col-sm-3 control-label'>Level Shortcode</label>
+			<div class='col-sm-2'>
+				<input type="text" class="form-control" name="level"></textarea>
+			</div>
+			<div class='col-sm-9 col-sm-offset-3'>
+				<p class="help-block">The tool's short name, as found in the URL for the tool page.</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class='col-sm-3 control-label'>Trained User Username</label>
+			<div class='col-sm-9'>
+				<input required class="form-control" name="username">
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Delete Training Record</button>
+	</form>
+	<hr>
+
+	<h4>Import Data</h4>
+	<form class="form-horizontal" method='post' action='/admin/import'>
+		<p class="help-block">This task imports training records that are currently kept on paper or in another system.</p>
+		<div class="form-group">
+			<label class='col-sm-3 control-label'>Tool</label>
+			<div class='col-sm-4'>
+				<input type="text" required class="form-control" placeholder="drillpress" name="tool"></textarea>
+			</div>
+			<label class='col-sm-3 control-label'>Level Shortcode</label>
+			<div class='col-sm-2'>
+				<input type="text" class="form-control" name="level"></textarea>
+			</div>
+			<div class='col-sm-9 col-sm-offset-3'>
+				<p class="help-block">The tool's short name, as found in the URL for the tool page.</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class='col-sm-3 control-label'>Usernames</label>
+			<div class='col-sm-9'>
+				<textarea required class="form-control" name="usernames"></textarea>
+				<p class="help-block">Enter usernames of users to be trained, one per line.</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class='col-sm-3 control-label'>Your Password</label>
+			<div class='col-sm-9'>
+				<input type="password" placeholder='password' required class="form-control" name="password"></textarea>
+				<input type="hidden" name="username" value="{{@SESSION.username}}">
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Add Training Records</button>
+	</form>
+	<hr>
+
+	<h4>Data Export</h4>
+	<form class="form" method='post' action='/admin/export'>
+		<button type="submit" class="btn btn-primary">Export Training Record as .csv</button>
+	</form>
+	<hr>
+
+	<h4>System Log</h4>
+	<form class="form" method='post' action='/admin/log'>
+		<button type="submit" class="btn btn-primary">Download Log</button>
+	</form>
+	<hr>
+
+	<h4>Training Levels</h4>
+	<p>This system supports multiple training levels for a tool. This was modeled after the Shopbot system of Level 1 users who many use the tool with a NINJA and Level 2 users who can use the tool with any shop buddy. Training levels have a single letter or number short code (in parentheses above) that identify the level on the master training record page.</p>
+	<p>Each tool defaults to having two training levels: </p>
+	<ul>
+		<li>Trained [] (no shortcode)</li>
+		<li>Instructor [T]</li>
+	</ul>
+	<p>The <b>instructor</b> level is special: users with the <b>instructor</b> training level have the ability to add training records to the database. For machines in non-student-run spaces, it may be desirable to only allow administrators to add training levels, even if non-administrators are performing the actual training. In this case, just change the instructor username on the training record creation page.</p>
+	<p>New training levels are tool-specific and must be added in the database for now and are stored as a JSON array in the <code>training_levels</code> field of the <code>tools</code> table. Note that if you delete the <b>instructor</b> training level, only system administrators will be allowed to add training records for the given tool. You must have at least one training level for each tool or you will cause all sorts of system errors.</p>
+	<hr>
+
+	<p style='text-align: right'>
+		Olin College Tools<br />
+		Version {{@VERSION}}
+	</p>
+
+
+</div>

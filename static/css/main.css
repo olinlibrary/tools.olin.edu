@@ -1,0 +1,129 @@
+body {
+	margin-top: 55px;
+}
+h2 {
+	padding-bottom: .3em;
+	border-bottom: 1px solid #e5e5e5;
+}
+h4,h5 {
+	color: #222;
+	font-weight: bold;
+}
+h5 {
+	text-transform: uppercase;
+}
+h3 .btn{
+	float: right;
+	margin-left: 0.5em;
+}
+h3 {
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+hr {
+	margin-bottom: 0;
+}
+.btn.pull-right {
+	margin-left: 5px;
+}
+.hidden {
+	display: none;
+}
+
+
+.tile {
+	text-align: center;
+	color: #777;
+}
+.tile:hover {
+	color: #777;
+	text-decoration: none;
+}
+.tile img {
+	max-width: 100%;
+}
+
+
+.trained-users.row {
+	margin-top: 1em;
+}
+.trained-users .legend {
+	margin-top: .75em;
+}
+.trained-users a {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.indicator {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background-color: #ddd;
+	-webkit-border-radius: 0.4em;
+	margin-bottom: -.12em;
+	margin-right: 0.4em;
+	font-size: 10pt;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+}
+.indicator.trained {
+	background-color: black;
+
+}
+
+img.tiny {
+	max-height: 150px;
+}
+
+
+
+.tool-header {
+	display: flex;
+}
+.tool-header .carousel {
+	height: 500px;
+	width: 100%;
+}
+.tool-header .carousel-inner, .carousel .item {
+	height: 100%;
+	width: 100%;
+	background-position: center;
+	background-size: cover;
+}
+.carousel-indicators {
+	left: 25%;
+}
+.tool-header .img, .tool-header .info {
+	flex: 1;
+}
+.tool-header .info {
+	padding: 20px 60px 50px;
+}
+.tool-header h2, .tool-header h5 {
+	font-weight: bold;
+	margin-top: 25px;
+	border: none;
+	text-transform: none;
+}
+.tool-header h5 {
+ 	height: 30px;
+}
+.tool-header ol a {
+	text-decoration: underline;
+}
+.tool-header ol {
+	margin-left: -1em;
+}
+
+.kiosk .navbar {
+	border: none;
+	background-color: rgba(0,0,0,0);
+}
+.kiosk .navbar .navbar-nav {
+	display: none;
+}
+.kiosk .header {
+	margin-top: 0;
+}

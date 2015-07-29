@@ -1,0 +1,33 @@
+<div class='row trained-users'>
+	
+	<div class='col-md-12'>
+		<div class='row'>
+		<h3 class='col-sm-7 col-xs-6'>{{@user.displayname}}</h3>
+		<div class='col-sm-2 col-xs-3 legend'><span class='indicator trained'></span>Trained</div>
+		<div class='col-sm-3 col-xs-3 legend'><span class='indicator'></span>Not Trained</div>
+		</div>
+	</div>
+
+	<repeat group="{{@toolgroups}}" counter="{{@ctr}}" value="{{@group}}">
+		<div class='col-md-2 col-sm-4'>
+			<h5>{{@group.displayname}}</h5>
+			<repeat group="{{@group.ownTools}}" value="{{@tool}}">
+			<a href='/{{@tool.name}}'>
+				<check if="{{isset(@trainings[@user.id][@tool.id][0])}}">
+					<true>
+						<span class='indicator trained' title="{{@trainings[@user.id][@tool.id][1]}}">{{@trainings[@user.id][@tool.id][0]}}</span>
+					</true>
+					<false>
+						<span class='indicator'></span>
+					</false>
+				</check>
+				{{@tool.displayname}}
+			</a>
+			</repeat>
+		</div>
+
+		<div class='{{@ctr%3?"":"clearfix visible-xs visible-sm"}} {{@ctr%6?"":"visible-md visible-lg"}}'></div>
+
+	</repeat>
+
+</div>

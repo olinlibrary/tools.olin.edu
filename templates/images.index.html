@@ -1,0 +1,28 @@
+<div class='col-md-3'></div>
+
+<div class="col-md-6" method='post' action=''>
+
+	<h2>
+		{{@data.displayname}} Images
+	</h2>
+
+		<check if="{{isset(@data.ownImages)}}">
+			<repeat group="{{@data.ownImages}}" value="{{@image}}">
+					<p>
+						<img src='/uploads/tools/{{@image.url}}' width='200'>
+						<a href='/{{@data.name}}/images/{{@image.id}}/thumb' class='btn btn-primary {{@image.thumb?"hidden":""}}'>Set as Thumbnail</a>
+						<a href='/{{@data.name}}/images/{{@image.id}}/delete' class='btn btn-danger'>Delete</a>
+					</p>
+			</repeat>
+		</check>
+
+
+	<a href='/{{@data.name}}' class='btn btn-default pull-right'>Back to {{@data.displayname}}</a>
+	<form method='post' action='' enctype="multipart/form-data">
+		<input type="hidden" name="tool" value="{{@data.id}}">
+		<input type="file" name="image">
+		<button type="submit" class="btn btn-primary">Upload</button>
+	</form>
+
+</div>
+
