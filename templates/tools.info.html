@@ -63,11 +63,11 @@
 				 	<br />
 				</repeat>
 			</div>
-			<check if="{{isset(@data.ownDocs) || @SESSION and @SESSION.admin}}">
+			<check if="{{isset(@data.ownDocs) || @SESSION && @SESSION.admin}}">
 				<div class='col-md-6'>
 					<h5>
 						DOCUMENTS
-						<check if="{{@SESSION and @SESSION.admin}}"><a href='/{{@data.name}}/docs' class='btn btn-xs btn-default'>Edit</a></check>
+						<check if="{{@SESSION && @SESSION.admin}}"><a href='/{{@data.name}}/docs' class='btn btn-xs btn-default'>Edit</a></check>
 					</h5>
 					<check if="{{isset(@data.ownDocs)}}">
 						<repeat group="{{@data.ownDocs}}" value="{{@item}}">
