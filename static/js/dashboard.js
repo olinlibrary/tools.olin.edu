@@ -1,5 +1,5 @@
 var DWELL_TIME = 2000; // Milliseconds
-var SPEED = 5; // Lower is faster
+var SPEED = 15; // Lower is faster
 
 function scrollToBottom(){
 	$("body").animate({ scrollTop: 0}, 0);
