@@ -162,9 +162,9 @@ class Session {
 		if (($ip=$this->ip()) && $ip!=$fw->get('IP') ||
 			($agent=$this->agent()) &&
 			(!isset($headers['User-Agent']) ||
-                $agent!=$headers['User-Agent'])) {
+            $agent!=$headers['User-Agent'])) {
                     session_destroy();
-                    $fw->reroute($server['REDIRECT_URL']);
+                    $fw->reroute($server['REQUEST_URI']);
 			        //\Base::instance()->error(403);
 		}
 		$csrf=$fw->hash($fw->get('ROOT').$fw->get('BASE')).'.'.
