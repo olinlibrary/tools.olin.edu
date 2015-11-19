@@ -163,8 +163,6 @@ class Session {
 			($agent=$this->agent()) &&
 			(!isset($headers['User-Agent']) ||
                 $agent!=$headers['User-Agent'])) {
-                    //printf ("A Busy Hive: <pre>%s</pre>", var_export( $fw->hive(), true ) );
-                    //printf("Redirect URL is this: <pre>%s</pre>", var_export($server['REDIRECT_URL']));
                     session_destroy();
                     $fw->reroute($server['REDIRECT_URL']);
 			        //\Base::instance()->error(403);
