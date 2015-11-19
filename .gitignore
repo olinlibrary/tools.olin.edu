@@ -5,3 +5,4 @@ tmp/*
 uploads/*
 *.log
 *.sql
+index.php
