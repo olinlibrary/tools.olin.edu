@@ -157,13 +157,17 @@ class Session {
 		register_shutdown_function('session_commit');
 		@session_start();
 		$fw=\Base::instance();
-		$headers=$fw->get('HEADERS');
+        $headers=$fw->get('HEADERS');
+        $server=$fw->get('SERVER');
 		if (($ip=$this->ip()) && $ip!=$fw->get('IP') ||
 			($agent=$this->agent()) &&
 			(!isset($headers['User-Agent']) ||
-				$agent!=$headers['User-Agent'])) {
-			session_destroy();
-			\Base::instance()->error(403);
+                $agent!=$headers['User-Agent'])) {
+                    //printf ("A Busy Hive: <pre>%s</pre>", var_export( $fw->hive(), true ) );
+                    //printf("Redirect URL is this: <pre>%s</pre>", var_export($server['REDIRECT_URL']));
+                    session_destroy();
+                    $fw->reroute($server['REDIRECT_URL']);
+			        //\Base::instance()->error(403);
 		}
 		$csrf=$fw->hash($fw->get('ROOT').$fw->get('BASE')).'.'.
 			$fw->hash(mt_rand());
