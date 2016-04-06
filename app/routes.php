@@ -6,6 +6,7 @@
 $f3->route('GET 	@home: 		/', 						'\Controllers\Tools->index');
 $f3->route('GET 				/u', 						'\Controllers\Trainings->index');
 $f3->route('GET 				/dashboard', 				'\Controllers\Trainings->dashboard');
+$f3->route('GET                 /incidents',                '\Controllers\Incidents->index');
 
 // Tool & Document Information
 $f3->route('GET 				/@name', 					'\Controllers\Tools->info');
@@ -57,7 +58,7 @@ if($f3->exists('SESSION') && $f3->get('SESSION.admin')){
 	$f3->route('POST 				/@name/delete', 			'\Controllers\Tools->delete_post');
 
 	// Manage Tool Locations
-	$f3->route('GET 	@locations: /locations', 				'\Controllers\Locations->index');
+	$f3->route('GET 	            @locations: /locations', 	'\Controllers\Locations->index');
 	$f3->route('GET 				/locations/new', 			'\Controllers\Locations->edit_form');
 	$f3->route('POST 				/locations/new', 			'\Controllers\Locations->edit_post');
 	$f3->route('GET 				/locations/@id/edit', 		'\Controllers\Locations->edit_form');
