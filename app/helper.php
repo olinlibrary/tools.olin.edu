@@ -18,13 +18,15 @@ function get_log($f3){
 }
 
 // Build-in PHP function exists for this in PHP >= 5.6
-function ldap_escape($subject){
-    $search = array_flip(array('\\', '*', '(', ')', "\x00"));
-    $search = array_keys($search); 
-    $replace = array();
-    foreach ($search as $char) {
-            $replace[] = sprintf('\\%02x', ord($char));
-    }
+if (!function_exists('ldap_escape')){
+    function ldap_escape($subject){
+        $search = array_flip(array('\\', '*', '(', ')', "\x00"));
+        $search = array_keys($search); 
+        $replace = array();
+        foreach ($search as $char) {
+                $replace[] = sprintf('\\%02x', ord($char));
+        }
 
-    return str_replace($search, $replace, $subject);
+        return str_replace($search, $replace, $subject);
+    }
 }
