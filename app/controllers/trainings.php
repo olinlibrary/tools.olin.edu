@@ -29,9 +29,9 @@ class Trainings extends Base {
 		$this->index($f3);
 	}
 
-	function import($f3){
 
-		// Authenticate User so we have LDAP Access
+	function import($f3){
+        // Authenticate User so we have LDAP Access
 		$user = new Users($f3);
 		$user->authenticate($f3);
 
@@ -43,14 +43,16 @@ class Trainings extends Base {
 		$messages[] =  'Training Record Created';
 		$messages[] = 'Tool: '.$this->D->name;
 		$messages[] = 'Level: '.$f3->get('POST.level');
-		
+
+        $instructor = \R::findOne('users', 'id=? AND active=1', array($f3->get('SESSION.id')));
+
 		// Create Training Records
 		$usernames = explode("\n",strtolower(str_replace(chr(13),'',str_replace(' ','',$f3->get('POST.usernames')))));
 		foreach($usernames as $username){
 			if(strlen($username)){
 				try{
 					$u = $user->load($f3, $username);
-					$record = $this->create_record($f3, $u, NULL, NULL);
+					$record = $this->create_record($f3, $u, $instructor, NULL);
 					$messages[] = $f3->get('message');
 				}catch(\Exception $e){
 					$messages[] = $e->getMessage();
@@ -85,7 +87,7 @@ class Trainings extends Base {
 
 				// Ensure User Checked the Affirmation
 			 	if(!$f3->get('POST.affirmation'))
-					throw new \Exception('Did not check legal aggreement box.');
+					throw new \Exception('Did not check legal agreement box.');
 
 				// Get Trained User
 				$user = new Users($f3);
@@ -107,10 +109,9 @@ class Trainings extends Base {
 		$training->users = $user;
 		$training->tools = $this->D;
 		$training->instructor = $instructor;
-		$training->timestamp = $timestamp!==false?$timestamp:time();
 		$training->level = $f3->get('POST.level');
 
-		$this->D->verify_training_level($f3->get('POST.level'));
+        $this->D->verify_training_level($f3->get('POST.level'));
 
 		// Store Training Record
 		\R::begin();
@@ -120,8 +121,9 @@ class Trainings extends Base {
 			$f3->set('message', $user->displayname.' has been trained!');
 			$f3->set('success', 1);
 		}catch(\Exception $e){
-			\R::rollback();
-			$f3->set('message', $user->displayname.' is already trained on this machine at this level. No training record added.');
+            \R::rollback();
+			$f3->set('message', $e.' is already trained on this machine at this level. No training record added.'.'<br><br>'.$instructor);
+			//$f3->set('message', $user->displayname.' is already trained on this machine at this level. No training record added.');
 			$f3->set('success', 0);
 		}
 

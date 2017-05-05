@@ -17,10 +17,10 @@ class Tools extends Base {
 		$D = \R::findAll('toolgroups', 'ORDER BY sort_priority DESC, displayname ASC');
 		foreach($D as $key=>$element)
 			$D[$key]->with("ORDER BY displayname ASC")->ownTools;
-		$f3->set('data', \R::exportAll($D));
+        $f3->set('data', \R::exportAll($D));
 
 		show_page($f3, 'tools.index');
-	}
+    }
 
 	function info($f3){
 		$this->D->with('ORDER BY displayname ASC')->ownDocs;
@@ -46,8 +46,7 @@ class Tools extends Base {
 		$f3->set('can_train', $f3->get('SESSION.active') &&
 		   $f3->get('SESSION.admin') || 
 		   \R::findOne('trainings', 'users_id=? AND tools_id=? AND level=?', array($f3->get('SESSION.id'), $this->D->id, 'T')));
-
-		parent::info($f3);
+        parent::info($f3);
 	}
 
 	function edit_form($f3){
@@ -122,6 +121,5 @@ class Tools extends Base {
 			$img->identicon($this->D->name, 200);
 			$img->render('jpeg');
 		}
-	}
-
+    }
 }

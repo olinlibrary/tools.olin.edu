@@ -16,7 +16,7 @@ class Users {
 		else if($f3->exists('SESSION.username'))
 			$this->username = strtolower($f3->get('SESSION.username'));
 	}
-	
+
 	function info($f3){
 
 		$toolgroups = \R::findAll('toolgroups', 'ORDER BY sort_priority DESC, displayname ASC');
@@ -37,16 +37,22 @@ class Users {
 		show_page($f3, 'login');
 	}
 
+    function c_log($data){
+        echo '<script>';
+        echo 'console.log('. json_encode($data) .')';
+        echo '</script>';
+    }
+
 	// Log in User
 	function login_post($f3){
 		$this->authenticate($f3);
 		$this->update_user($f3);
-		$this->set_session($f3);
-		$f3->reroute('@home');
-	}
+        $this->set_session($f3);
+        $f3->reroute('@home');
+    }
 
 	// Log Out User
-	function logout($f3){
+    function logout($f3){
 		$f3->clear('SESSION');
 		$f3->reroute('@home');
 	}
@@ -56,8 +62,8 @@ class Users {
 		$this->LDAPhandle = ldap_connect('ldap://'.$f3->get('LDAP_SERVER'));
 		ldap_set_option($this->LDAPhandle, LDAP_OPT_PROTOCOL_VERSION, 3);
 		ldap_set_option($this->LDAPhandle, LDAP_OPT_REFERRALS, 0);
-		if(!@ldap_bind($this->LDAPhandle, $this->username.'@'.$f3->get('LDAP_DOMAIN'), $f3->get('POST.password')))
-			$f3->error(403, 'Invalid Credentials');
+        if(!@ldap_bind($this->LDAPhandle, $this->username.'@'.$f3->get('LDAP_DOMAIN'), $f3->get('POST.password')))
+            $f3->error(403, 'Invalid Credentials');
 	}
 
 	// Load User (Used After Object Creation)
@@ -108,7 +114,8 @@ class Users {
 		}
 
 	  	// Update Username & Display Name
-		$this->D->username = $ldapResult[0]['samaccountname'][0];
+        $this->D->username = $ldapResult[0]['samaccountname'][0];
+        //$this->c_log($this->D->username);
 		$this->D->displayname = $ldapResult[0]['displayname'][0];
 
 	  	// Update Active User Status
@@ -151,7 +158,9 @@ class Users {
 		$result['id'] = $this->D->id ? $this->D->id : $this->D->_id;
 		$result['active'] = $this->D->active;
 
-		$f3->set('SESSION', $result);
+        $f3->set('SESSION', $result);
+        //$this->c_log('Set session got called '.$f3->get('SESSION.username'));
+        //$this->c_log('Set session got called '.$f3->get('SESSION.admin'));
 	}
 
 	function admin_page($f3){
@@ -211,8 +220,4 @@ class Users {
 
 		echo '<b>All Users Updated. <a href=/admin>Return to Administrator Portal</a>';
 	}
-
-
-
-
 }
