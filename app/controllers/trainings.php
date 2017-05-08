@@ -8,17 +8,21 @@ class Trainings extends Base {
 
 	function index($f3){
 
-		$tools = \R::find('tools');
+        $tools = \R::find('tools');
+		logger($f3, 'Tools query executed successfully');
 
 		$D = \R::findAll('toolgroups', 'ORDER BY sort_priority DESC, displayname ASC');
+		logger($f3, 'Toolgroups query executed successfully');
 		foreach($D as $key=>$element)
 			$D[$key]->with("ORDER BY displayname ASC")->ownTools;
 		$f3->set('toolgroups', \R::exportAll($D));
 
 		$trainings = \R::find('trainings');
+		logger($f3, 'Trainings query executed successfully');
 		$f3->set('trainings', $trainings?reset($trainings)->build_lookup($trainings):false);
 
 		$users = \R::find('users', 'active=1 ORDER BY usergroup ASC, displayname ASC');
+		logger($f3, 'Users query executed successfully');
 		$f3->set('usergroups', $users?reset($users)->group($users):$users);
 
 		show_page($f3, 'trainings.index', true);
