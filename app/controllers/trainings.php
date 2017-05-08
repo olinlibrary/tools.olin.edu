@@ -29,7 +29,6 @@ class Trainings extends Base {
 		$this->index($f3);
 	}
 
-
 	function import($f3){
         // Authenticate User so we have LDAP Access
 		$user = new Users($f3);
@@ -122,8 +121,7 @@ class Trainings extends Base {
 			$f3->set('success', 1);
 		}catch(\Exception $e){
             \R::rollback();
-			$f3->set('message', $e.' is already trained on this machine at this level. No training record added.'.'<br><br>'.$instructor);
-			//$f3->set('message', $user->displayname.' is already trained on this machine at this level. No training record added.');
+			$f3->set('message', $user->displayname.' is already trained on this machine at this level. No training record added.');
 			$f3->set('success', 0);
 		}
 
