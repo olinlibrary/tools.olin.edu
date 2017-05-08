@@ -14,7 +14,8 @@ new Session();
 
 // Initialize Database & RedBeanPHP ORM
 require('vendor/gabordemooij/redbean/rb-p533.php');
-R::setup('mysql:host=127.0.0.1;dbname=tools','root','root');
+//R::setup('mysql:host=localhost;dbname=tools','tools','TOOLS_PASSWORD');
+R::setup('mysql:host=localhost;dbname=tools','tools','p8iVCPzkqA');
 R::freeze(true);
 define('REDBEAN_MODEL_PREFIX', '\\Models\\');
 
