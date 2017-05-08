@@ -37,12 +37,6 @@ class Users {
 		show_page($f3, 'login');
 	}
 
-    function c_log($data){
-        echo '<script>';
-        echo 'console.log('. json_encode($data) .')';
-        echo '</script>';
-    }
-
 	// Log in User
 	function login_post($f3){
 		$this->authenticate($f3);
@@ -115,7 +109,6 @@ class Users {
 
 	  	// Update Username & Display Name
         $this->D->username = $ldapResult[0]['samaccountname'][0];
-        //$this->c_log($this->D->username);
 		$this->D->displayname = $ldapResult[0]['displayname'][0];
 
 	  	// Update Active User Status
@@ -159,8 +152,6 @@ class Users {
 		$result['active'] = $this->D->active;
 
         $f3->set('SESSION', $result);
-        //$this->c_log('Set session got called '.$f3->get('SESSION.username'));
-        //$this->c_log('Set session got called '.$f3->get('SESSION.admin'));
 	}
 
 	function admin_page($f3){
