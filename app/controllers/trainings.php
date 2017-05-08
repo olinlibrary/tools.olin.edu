@@ -23,7 +23,8 @@ class Trainings extends Base {
 
 		$users = \R::find('users', 'active=1 ORDER BY usergroup ASC, displayname ASC');
 		logger($f3, 'Users query executed successfully');
-		$f3->set('usergroups', $users?reset($users)->group($users):$users);
+        $f3->set('usergroups', $users?reset($users)->group($users):$users);
+		logger($f3, 'F3 set usergroups successfully.');
 
 		show_page($f3, 'trainings.index', true);
 	}
