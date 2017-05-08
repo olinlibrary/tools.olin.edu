@@ -26,7 +26,9 @@ class Trainings extends Base {
         $f3->set('usergroups', $users?reset($users)->group($users):$users);
 		logger($f3, 'F3 set usergroups successfully.');
 
-		show_page($f3, 'trainings.index', true);
+        show_page($f3, 'trainings.index', true);
+
+		logger($f3, 'Leaving trainings index function');
 	}
 
 	function dashboard($f3){
