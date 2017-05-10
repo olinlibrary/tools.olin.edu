@@ -21,7 +21,7 @@ function get_log($f3){
 if (!function_exists('ldap_escape')){
     function ldap_escape($subject){
         $search = array_flip(array('\\', '*', '(', ')', "\x00"));
-        $search = array_keys($search); 
+        $search = array_keys($search);
         $replace = array();
         foreach ($search as $char) {
                 $replace[] = sprintf('\\%02x', ord($char));

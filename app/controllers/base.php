@@ -45,8 +45,8 @@ class Base {
 	function check_empty($f3){
 		return true;
 	}
-	
-	function index($f3){
+
+    function index($f3){
 		$D = \R::find($this->model_name(), 'ORDER BY displayname ASC');
 		if($D){
 			$f3->set('data', \R::exportAll($D));
@@ -54,16 +54,16 @@ class Base {
 			$f3->set('data', '');
 		show_page($f3, $this->template_name().'.index');
 	}
-	
+
 	function info($f3){
 		show_page($f3, $this->template_name().'.info');
 	}
-	
+
 	function edit_form($f3){
 		$f3->set('empty',$this->check_empty($f3));
 		show_page($f3, $this->template_name().'.edit');
 	}
-	
+
 	function delete_form($f3){
 		if(!$this->check_empty($f3)) throw new \Exception('Not Empty');
 
